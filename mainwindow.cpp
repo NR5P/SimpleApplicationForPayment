@@ -74,5 +74,6 @@ void MainWindow::on_buttonApplicationForPayment_clicked()
 
 void MainWindow::on_buttonNewProject_clicked()
 {
+    newProject = true;
     ui->stackedWidget->setCurrentIndex(0);
 }

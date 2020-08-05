@@ -54,4 +54,9 @@ QList<ApplicationForPayment> Database::getApplicationsForPayment(int projectId)
     return applicationForPayments;
 }
 
+void Database::addApplicationForPayment(ApplicationForPayment applicationForPayment)
+{
+
+}
+
 
