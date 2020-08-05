@@ -10,3 +10,4 @@ Table::Table(Ui::MainWindow *ui)
 Table::~Table()
 {
 }
+

@@ -22,9 +22,11 @@ MainWindow::MainWindow(QWidget *parent)
 
     database = new Database();
 
-    projects.append("first project");
-    projects.append("second project");
-    projects.append("third project");
+    QList<Project> projectModels = database->getProjectsFromDb();
+    for (Project proj : projectModels)
+    {
+        projects.append(proj.getProjectDescription());
+    }
     ui->projectList->setModel(new QStringListModel(projects));
 }
 
@@ -66,6 +68,11 @@ void MainWindow::on_buttonBackProjectScreen_clicked()
 
 
 void MainWindow::on_buttonApplicationForPayment_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(0);
+}
+
+void MainWindow::on_buttonNewProject_clicked()
 {
     ui->stackedWidget->setCurrentIndex(0);
 }

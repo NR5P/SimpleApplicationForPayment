@@ -10,6 +10,7 @@ class Project
 {
 public:
     Project(int id, QString, QString, QString);
+    QString getProjectDescription();
 
 private:
     QString name;

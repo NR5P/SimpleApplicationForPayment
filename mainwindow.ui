@@ -589,7 +589,7 @@
           <number>10</number>
          </property>
          <item>
-          <widget class="QPushButton" name="pushButton_13">
+          <widget class="QPushButton" name="buttonNewProject">
            <property name="minimumSize">
             <size>
              <width>0</width>

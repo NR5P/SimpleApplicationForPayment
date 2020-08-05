@@ -32,6 +32,7 @@ private slots:
 
 
     void on_buttonApplicationForPayment_clicked();
+    void on_buttonNewProject_clicked();
 
 private:
     Ui::MainWindow *ui;

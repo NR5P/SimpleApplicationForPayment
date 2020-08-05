@@ -34,3 +34,24 @@ QList<Project> Database::getProjectsFromDb()
     }
     return projects;
 }
+
+QList<ApplicationForPayment> Database::getApplicationsForPayment(int projectId)
+{
+    QList<ApplicationForPayment> applicationForPayments;
+    QSqlQuery query("SELECT id, projectId, projectCode, applicationNumber, applicationDate, contractDate, periodFrom"
+                    "periodTo, customerName, customerAddress, customerCity, customerState, customerZip, contractorName,"
+                    "contractorAddress, contractorCity, contractorState, contractorZip"
+                    "FROM applicationForPayments WITH projectId = " + QString::number(projectId));
+    while(query.next())
+    {
+        ApplicationForPayment applicationForPayment = ApplicationForPayment(query.value(0).toInt(), query.value(1).toInt(), query.value(2).toString(), query.value(3).toString(),
+                                                                            query.value(4).toString(), query.value(5).toString(), query.value(6).toString(), query.value(7).toString(),
+                                                                            query.value(8).toString(), query.value(9).toString(), query.value(10).toString(), query.value(11).toString(),
+                                                                            query.value(12).toString(), query.value(13).toString(), query.value(14).toString(), query.value(15).toString(),
+                                                                            query.value(16).toString(), query.value(17).toString());
+        applicationForPayments.append(applicationForPayment);
+    }
+    return applicationForPayments;
+}
+
+
