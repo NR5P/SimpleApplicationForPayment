@@ -6,6 +6,8 @@
 #include <QSqlQuery>
 #include <QDir>
 #include <QVariant>
+#include <QDate>
+#include <QVariant>
 
 Database::Database()
 {
@@ -56,7 +58,30 @@ QList<ApplicationForPayment> Database::getApplicationsForPayment(int projectId)
 
 void Database::addApplicationForPayment(ApplicationForPayment applicationForPayment)
 {
-
+    QString projectCode = applicationForPayment.projectCode;
+    QString applicationNumber = applicationForPayment.applicationNumber;
+    QString applicationDate = applicationForPayment.applicationDate.toString("MM/dd/yyyy");
+    QString contractDate = applicationForPayment.contractDate.toString("MM/dd/yyyy");
+    QString periodFrom = applicationForPayment.periodFrom.toString("MM/dd/yyyy");
+    QString periodTo = applicationForPayment.periodTo.toString("dd/MM/yyyy");
+    QString customerName = applicationForPayment.customerName;
+    QString customerAddress = applicationForPayment.customerAddress;
+    QString customerCity = applicationForPayment.customerCity;
+    QString customerState = applicationForPayment.customerState;
+    QString customerZip = applicationForPayment.customerZip;
+    QString contractorName = applicationForPayment.contractorName;
+    QString contractorAddress = applicationForPayment.contractorAddress;
+    QString contractorCity = applicationForPayment.contractorCity;
+    QString contractorState = applicationForPayment.contractorState;
+    QString contractorZip = applicationForPayment.contractorZip;
+    QString lastProjectDate = applicationForPayment.applicationDate.toString("dd/MM/yyyy");
+    QSqlQuery query("INSERT INTO projects (name, address, lastProjectDate) VALUES("+customerName+","+customerAddress+", "+lastProjectDate+");"
+                   "SELECT LAST_INSERT_ID();");
+    QString lastInsertId = query.value(0).toString();
+    QSqlQuery query2("INSERT INTO applicationForPayments (projectCode, applicationNumber, applicationDate, contractDate,"
+                     "periodFrom, periodTo, customerName, customerAddress, customerCity, customerState, customerZip,"
+                     "contractorName, contractorAddress, contractorCity, contractorState, contractorZip, projectId"
+                     ") VALUES("+projectCode+", "+applicationNumber+", "+applicationDate+", "+contractDate+", "+periodFrom+", " +periodTo+ ","+customerName+", " +customerAddress+ "," +customerCity+ ","+customerState+","+customerZip+", "+contractorName+", "+contractorAddress+", "+contractorCity+", "+contractorState+", "+contractorZip+"," +lastInsertId+")");
 }
 
 

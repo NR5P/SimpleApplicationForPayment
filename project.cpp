@@ -13,3 +13,4 @@ QString Project::getProjectDescription()
     return name + " " + address + " " + lastApplicationDate.toString("MM/dd/yyyy");
 }
 
+

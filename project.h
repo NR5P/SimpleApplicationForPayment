@@ -12,7 +12,6 @@ public:
     Project(int id, QString, QString, QString);
     QString getProjectDescription();
 
-private:
     QString name;
     QDate lastApplicationDate;
     QString address;

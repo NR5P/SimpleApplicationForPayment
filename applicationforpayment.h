@@ -9,8 +9,8 @@ class ApplicationForPayment
 {
 public:
     ApplicationForPayment(int, int, QString, QString, QString, QString, QString, QString, QString, QString, QString, QString, QString, QString, QString, QString, QString, QString);
+    QString getFullAddress();
 
-private:
     int id;
     int projectId;
     QString projectCode;

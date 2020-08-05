@@ -10,6 +10,7 @@ private:
 public:
     Table(Ui::MainWindow *ui);
     ~Table();
+private slots:
 };
 
 #endif // TABLE_H

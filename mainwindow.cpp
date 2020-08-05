@@ -77,3 +77,14 @@ void MainWindow::on_buttonNewProject_clicked()
     newProject = true;
     ui->stackedWidget->setCurrentIndex(0);
 }
+
+void MainWindow::on_buttonSaveApplication_clicked()
+{
+    // if new project create a new project in db
+
+    // get information from the application and create applicationforpayment
+
+    // call insert function from database to insert new one
+
+    // return to the main project screen
+}
