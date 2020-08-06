@@ -1,5 +1,4 @@
 #include "mainwindow.h"
-#include "table.h"
 #include "ui_mainwindow.h"
 #include <QtSql>
 #include <QMessageBox>
@@ -17,7 +16,8 @@ MainWindow::MainWindow(QWidget *parent)
         ui->inputCustomerState->insertItem(i, states[i]);
         ui->inputContractorState->insertItem(i, states[i]);
     }
-    table = new Table(ui);
+
+    ui->lineItemsTable->resizeColumnsToContents();
     ui->stackedWidget->setCurrentIndex(1);
 
     database = new Database();
@@ -33,7 +33,6 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
-    delete table;
     delete database;
 }
 
@@ -80,11 +79,28 @@ void MainWindow::on_buttonNewProject_clicked()
 
 void MainWindow::on_buttonSaveApplication_clicked()
 {
-    // if new project create a new project in db
-
     // get information from the application and create applicationforpayment
-
-    // call insert function from database to insert new one
+    QString projectCode = ui->projectCode->text();
+    QString applicationNumber = ui->applicationNumber->text();
+    QString applicationDate = ui->applicationDate->text();
+    QString contractDate = ui->contractDate->text();
+    QString periodFrom = ui->periodFrom->text();
+    QString periodTo = ui->periodTo->text();
+    QString customerName = ui->inputCustomerName->text();
+    QString customerAddress = ui->inputCustomerAddress->text();
+    QString customerCity = ui->inputCustomerCity->text();
+    QString customerState = ui->inputCustomerState->currentText();
+    QString customerZip = ui->inputCustomerZip->text();
+    QString contractorName = ui->inputContractorName->text();
+    QString contractorAddress = ui->inputContractorAddress->text();
+    QString contractorCity = ui->inputContractorCity->text();
+    QString contractorState = ui->inputContractorState->currentText();
+    QString contractorZip = ui->inputContractorZip->text();
+    ApplicationForPayment applicationForPayment = ApplicationForPayment(currentProjectId, projectCode, applicationNumber, applicationDate,contractDate, periodFrom, periodTo,
+                                                                        customerName, customerAddress, customerCity, customerState, customerZip,
+                                                                        contractorName, contractorAddress, contractorCity, contractorState, contractorZip);
+    database->addApplicationForPayment(applicationForPayment, newProject, currentProjectId);
+    ui->stackedWidget->setCurrentIndex(1);
 
     // return to the main project screen
 }

@@ -8,7 +8,7 @@
 class ApplicationForPayment
 {
 public:
-    ApplicationForPayment(int, int, QString, QString, QString, QString, QString, QString, QString, QString, QString, QString, QString, QString, QString, QString, QString, QString);
+    ApplicationForPayment(int, QString, QString, QString, QString, QString, QString, QString, QString, QString, QString, QString, QString, QString, QString, QString, QString);
     QString getFullAddress();
 
     int id;

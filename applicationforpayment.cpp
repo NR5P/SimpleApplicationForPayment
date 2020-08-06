@@ -1,6 +1,6 @@
 #include "applicationforpayment.h"
 
-ApplicationForPayment::ApplicationForPayment(int id, int projectId, QString projectCode, QString applicationNumber, QString applicationDate,
+ApplicationForPayment::ApplicationForPayment(int projectId, QString projectCode, QString applicationNumber, QString applicationDate,
                                              QString contractDate, QString periodFrom, QString periodTo, QString customerName, QString customerAddress,
                                              QString customerCity, QString customerState, QString customerZip, QString contractorName,
                                              QString contractorAddress, QString contractorCity, QString contractorState, QString contractorZip)

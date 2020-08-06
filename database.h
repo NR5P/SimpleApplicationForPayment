@@ -15,7 +15,7 @@ public:
     Database();
     QList<Project> getProjectsFromDb();
     QList<ApplicationForPayment> getApplicationsForPayment(int projectId);
-    void addApplicationForPayment(ApplicationForPayment);
+    void addApplicationForPayment(ApplicationForPayment, bool, int);
 private:
     const QString dbName;
     QSqlDatabase mydb;

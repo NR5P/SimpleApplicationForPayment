@@ -40,23 +40,23 @@ QList<Project> Database::getProjectsFromDb()
 QList<ApplicationForPayment> Database::getApplicationsForPayment(int projectId)
 {
     QList<ApplicationForPayment> applicationForPayments;
-    QSqlQuery query("SELECT id, projectId, projectCode, applicationNumber, applicationDate, contractDate, periodFrom"
+    QSqlQuery query("SELECT projectId, projectCode, applicationNumber, applicationDate, contractDate, periodFrom"
                     "periodTo, customerName, customerAddress, customerCity, customerState, customerZip, contractorName,"
                     "contractorAddress, contractorCity, contractorState, contractorZip"
                     "FROM applicationForPayments WITH projectId = " + QString::number(projectId));
     while(query.next())
     {
-        ApplicationForPayment applicationForPayment = ApplicationForPayment(query.value(0).toInt(), query.value(1).toInt(), query.value(2).toString(), query.value(3).toString(),
+        ApplicationForPayment applicationForPayment = ApplicationForPayment(query.value(0).toInt(), query.value(1).toString(), query.value(2).toString(), query.value(3).toString(),
                                                                             query.value(4).toString(), query.value(5).toString(), query.value(6).toString(), query.value(7).toString(),
                                                                             query.value(8).toString(), query.value(9).toString(), query.value(10).toString(), query.value(11).toString(),
                                                                             query.value(12).toString(), query.value(13).toString(), query.value(14).toString(), query.value(15).toString(),
-                                                                            query.value(16).toString(), query.value(17).toString());
+                                                                            query.value(16).toString());
         applicationForPayments.append(applicationForPayment);
     }
     return applicationForPayments;
 }
 
-void Database::addApplicationForPayment(ApplicationForPayment applicationForPayment)
+void Database::addApplicationForPayment(ApplicationForPayment applicationForPayment, bool newProject, int projectId)
 {
     QString projectCode = applicationForPayment.projectCode;
     QString applicationNumber = applicationForPayment.applicationNumber;
@@ -75,13 +75,69 @@ void Database::addApplicationForPayment(ApplicationForPayment applicationForPaym
     QString contractorState = applicationForPayment.contractorState;
     QString contractorZip = applicationForPayment.contractorZip;
     QString lastProjectDate = applicationForPayment.applicationDate.toString("dd/MM/yyyy");
-    QSqlQuery query("INSERT INTO projects (name, address, lastProjectDate) VALUES("+customerName+","+customerAddress+", "+lastProjectDate+");"
-                   "SELECT LAST_INSERT_ID();");
-    QString lastInsertId = query.value(0).toString();
-    QSqlQuery query2("INSERT INTO applicationForPayments (projectCode, applicationNumber, applicationDate, contractDate,"
-                     "periodFrom, periodTo, customerName, customerAddress, customerCity, customerState, customerZip,"
-                     "contractorName, contractorAddress, contractorCity, contractorState, contractorZip, projectId"
-                     ") VALUES("+projectCode+", "+applicationNumber+", "+applicationDate+", "+contractDate+", "+periodFrom+", " +periodTo+ ","+customerName+", " +customerAddress+ "," +customerCity+ ","+customerState+","+customerZip+", "+contractorName+", "+contractorAddress+", "+contractorCity+", "+contractorState+", "+contractorZip+"," +lastInsertId+")");
+    if (newProject)
+    {
+        QSqlQuery query;
+        query.prepare("INSERT INTO projects (name, address, lastProjectDate) VALUES(:customerName, :customerAddress, :lastProjectDate);");
+        query.bindValue(":customerName",customerName);
+        query.bindValue(":customerAddrss",customerAddress);
+        query.bindValue(":lastProjectDate",lastProjectDate);
+        query.exec();
+        QString lastInsertId = query.lastInsertId().toString();
+        QSqlQuery query2;
+        query2.prepare("INSERT INTO applicationForPayments (projectCode, applicationNumber, applicationDate, contractDate,"
+                 "periodFrom, periodTo, customerName, customerAddress, customerCity, customerState, customerZip,"
+                 "contractorName, contractorAddress, contractorCity, contractorState, contractorZip, projectId"
+                 ") VALUES(:projectCode, :applicationNumber, :applicationDate, :contractDate, :perodFrom, :periodTo,"
+                       ":customerName, :customerAddress, :customerCity, :customerState, :customerZip,"
+                       ":contractorName, :contractorAddress, :contractorCity, :contractorState, :contractorZip, :projectId);");
+        query2.bindValue(":projectCode", projectCode);
+        query2.bindValue(":applicationNumber", applicationNumber);
+        query2.bindValue(":applicationDate", applicationDate);
+        query2.bindValue(":contractDate", contractDate);
+        query2.bindValue(":periodFrom", periodFrom);
+        query2.bindValue(":periodTo", periodTo);
+        query2.bindValue(":customerName", customerName);
+        query2.bindValue(":customerAddress", customerAddress);
+        query2.bindValue(":customerCity", customerCity);
+        query2.bindValue(":customerState", customerState);
+        query2.bindValue(":customerZip", customerZip);
+        query2.bindValue(":contractorName", contractorName);
+        query2.bindValue(":contractorAddress", contractorAddress);
+        query2.bindValue(":contractorCity", contractorCity);
+        query2.bindValue(":contractorState", contractorState);
+        query2.bindValue(":contractorZip", contractorZip);
+        query2.bindValue(":projectId", lastInsertId);
+        query2.exec();
+
+    } else {
+        QSqlQuery query2;
+        query2.prepare("INSERT INTO applicationForPayments (projectCode, applicationNumber, applicationDate, contractDate,"
+                 "periodFrom, periodTo, customerName, customerAddress, customerCity, customerState, customerZip,"
+                 "contractorName, contractorAddress, contractorCity, contractorState, contractorZip, projectId"
+                 ") VALUES(:projectCode, :applicationNumber, :applicationDate, :contractDate, :perodFrom, :periodTo,"
+                       ":customerName, :customerAddress, :customerCity, :customerState, :customerZip,"
+                       ":contractorName, :contractorAddress, :contractorCity, :contractorState, :contractorZip, :projectId)");
+        query2.bindValue(":projectCode", projectCode);
+        query2.bindValue(":applicationNumber", applicationNumber);
+        query2.bindValue(":applicationDate", applicationDate);
+        query2.bindValue(":contractDate", contractDate);
+        query2.bindValue(":periodFrom", periodFrom);
+        query2.bindValue(":periodTo", periodTo);
+        query2.bindValue(":customerName", customerName);
+        query2.bindValue(":customerAddress", customerAddress);
+        query2.bindValue(":customerCity", customerCity);
+        query2.bindValue(":customerState", customerState);
+        query2.bindValue(":customerZip", customerZip);
+        query2.bindValue(":contractorName", contractorName);
+        query2.bindValue(":contractorAddress", contractorAddress);
+        query2.bindValue(":contractorCity", contractorCity);
+        query2.bindValue(":contractorState", contractorState);
+        query2.bindValue(":contractorZip", contractorZip);
+        query2.bindValue(":projectId", projectId);
+        query2.exec();
+
+    }
 }
 
 
